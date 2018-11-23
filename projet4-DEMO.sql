@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 16, 2018 at 08:42 AM
+-- Generation Time: Nov 23, 2018 at 09:54 AM
 -- Server version: 5.6.34-log
 -- PHP Version: 7.0.19
 
@@ -50,7 +50,7 @@ INSERT INTO `client` (`num_client`, `prenom_client`, `nom_client`) VALUES
 
 CREATE TABLE `commande` (
   `num_commande` int(11) NOT NULL,
-  `date_commande` datetime NOT NULL,
+  `date_commande` timestamp(2) NOT NULL DEFAULT CURRENT_TIMESTAMP(2) ON UPDATE CURRENT_TIMESTAMP(2),
   `montant_commande` decimal(6,2) NOT NULL,
   `statut_commande` enum('en cours','livrée') NOT NULL,
   `num_client` int(11) NOT NULL,
@@ -63,9 +63,9 @@ CREATE TABLE `commande` (
 --
 
 INSERT INTO `commande` (`num_commande`, `date_commande`, `montant_commande`, `statut_commande`, `num_client`, `num_livreur`, `Localisation_id`) VALUES
-(1, '2018-11-27 12:24:19', 16.00, 'livrée', 1, 1, 1),
-(2, '2018-11-27 12:30:10', 18.00, 'livrée', 2, 2, 1),
-(3, '2018-11-28 12:07:21', 32.00, 'en cours', 1, 1, 1);
+(1, '2018-11-27 11:24:19.00', 16.00, 'livrée', 1, 1, 1),
+(2, '2018-11-27 11:30:10.00', 18.00, 'livrée', 2, 2, 1),
+(3, '2018-11-28 11:07:21.00', 32.00, 'en cours', 1, 1, 1);
 
 -- --------------------------------------------------------
 
