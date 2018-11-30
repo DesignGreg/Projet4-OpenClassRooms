@@ -2,10 +2,10 @@
 -- version 4.7.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Nov 23, 2018 at 09:54 AM
--- Server version: 5.6.34-log
--- PHP Version: 7.0.19
+-- Hôte : localhost:3306
+-- Généré le :  ven. 30 nov. 2018 à 16:57
+-- Version du serveur :  5.6.34-log
+-- Version de PHP :  7.0.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,13 +19,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `projet4`
+-- Base de données :  `projet4`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `client`
+-- Structure de la table `client`
 --
 
 CREATE TABLE `client` (
@@ -35,7 +35,7 @@ CREATE TABLE `client` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `client`
+-- Déchargement des données de la table `client`
 --
 
 INSERT INTO `client` (`num_client`, `prenom_client`, `nom_client`) VALUES
@@ -45,7 +45,7 @@ INSERT INTO `client` (`num_client`, `prenom_client`, `nom_client`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `commande`
+-- Structure de la table `commande`
 --
 
 CREATE TABLE `commande` (
@@ -59,41 +59,40 @@ CREATE TABLE `commande` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `commande`
+-- Déchargement des données de la table `commande`
 --
 
 INSERT INTO `commande` (`num_commande`, `date_commande`, `montant_commande`, `statut_commande`, `num_client`, `num_livreur`, `Localisation_id`) VALUES
-(1, '2018-11-27 11:24:19.00', 16.00, 'livrée', 1, 1, 1),
-(2, '2018-11-27 11:30:10.00', 18.00, 'livrée', 2, 2, 1),
-(3, '2018-11-28 11:07:21.00', 32.00, 'en cours', 1, 1, 1);
+(1, '2018-11-30 16:53:56.41', 16.00, 'livrée', 2, 1, 3),
+(2, '2018-11-29 12:10:19.00', 18.00, 'livrée', 1, 2, 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `livreur`
+-- Structure de la table `livreur`
 --
 
 CREATE TABLE `livreur` (
   `num_livreur` int(11) NOT NULL,
   `nom_livreur` varchar(45) NOT NULL,
-  `num_plats_en_stock` varchar(45) NOT NULL,
+  `plats_en_stock` mediumtext NOT NULL,
   `statut` tinyint(1) NOT NULL,
   `latitude` float NOT NULL,
   `longitude` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `livreur`
+-- Déchargement des données de la table `livreur`
 --
 
-INSERT INTO `livreur` (`num_livreur`, `nom_livreur`, `num_plats_en_stock`, `statut`, `latitude`, `longitude`) VALUES
-(1, 'Coyote', '1,3', 1, 48.5102, 2.19085),
-(2, 'Jaguar', '2,4', 1, 48.5102, 2.19085);
+INSERT INTO `livreur` (`num_livreur`, `nom_livreur`, `plats_en_stock`, `statut`, `latitude`, `longitude`) VALUES
+(1, 'Coyote', 'let plats = {\r\n   nomPlat:\r\n   quantite:\r\n};\r\n\r\nlet desserts = {\r\n   nomPlat:\r\n   quantite:\r\n};', 1, 48.5102, 2.19085),
+(2, 'Jaguar', 'let plats = {\r\n   nomPlat:\r\n   quantite:\r\n};\r\n\r\nlet desserts = {\r\n   nomPlat:\r\n   quantite:\r\n};', 1, 48.5102, 2.19085);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `localisation`
+-- Structure de la table `localisation`
 --
 
 CREATE TABLE `localisation` (
@@ -104,45 +103,47 @@ CREATE TABLE `localisation` (
   `ville` varchar(45) NOT NULL,
   `telephone` varchar(10) NOT NULL,
   `latitude` float NOT NULL,
-  `longitude` float NOT NULL
+  `longitude` float NOT NULL,
+  `Client_num_client` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `localisation`
+-- Déchargement des données de la table `localisation`
 --
 
-INSERT INTO `localisation` (`id`, `voie`, `complement`, `code_postal`, `ville`, `telephone`, `latitude`, `longitude`) VALUES
-(1, 'rue de Sèvres', 'Bat A', '75007', 'Paris', '0606060606', 48.5102, 2.19085);
+INSERT INTO `localisation` (`id`, `voie`, `complement`, `code_postal`, `ville`, `telephone`, `latitude`, `longitude`, `Client_num_client`) VALUES
+(1, 'rue de Sèvres', 'Bat A', '75007', 'Paris', '0606060606', 48.5102, 2.19085, 1),
+(2, 'rue de Sèvres', 'Bat A', '75007', 'Paris', '0707070707', 48.5102, 2.19085, 2),
+(3, 'rue travail', 'Bureau 13', '75009', 'Paris', '0707070707', 48.5102, 2.19085, 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `produit`
+-- Structure de la table `produit`
 --
 
 CREATE TABLE `produit` (
   `num_produit` int(11) NOT NULL,
   `nom_produit` varchar(45) NOT NULL,
   `type_produit` enum('plat','dessert') NOT NULL,
-  `ingredients` varchar(45) NOT NULL,
-  `prix` decimal(4,2) NOT NULL,
-  `num_commande` int(11) NOT NULL
+  `ingredients` mediumtext NOT NULL,
+  `prix` decimal(4,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `produit`
+-- Déchargement des données de la table `produit`
 --
 
-INSERT INTO `produit` (`num_produit`, `nom_produit`, `type_produit`, `ingredients`, `prix`, `num_commande`) VALUES
-(1, 'Spaghettis sauce bolognaise', 'plat', '', 8.00, 0),
-(2, 'Sushi', 'plat', 'poisson', 9.00, 0),
-(3, 'Fondant chocolat', 'dessert', '', 8.00, 0),
-(4, 'salade de fruits', 'dessert', 'ananas, banane, pomme, kiwi', 9.00, 0);
+INSERT INTO `produit` (`num_produit`, `nom_produit`, `type_produit`, `ingredients`, `prix`) VALUES
+(1, 'Spaghettis sauce bolognaise', 'plat', '', 8.00),
+(2, 'Sushi', 'plat', 'poisson', 9.00),
+(3, 'Salade de fruit', 'dessert', 'banane, fraise, kiwi', 9.00),
+(4, 'Fondant chocolat', 'dessert', '', 8.00);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `produits_dans_commande`
+-- Structure de la table `produits_dans_commande`
 --
 
 CREATE TABLE `produits_dans_commande` (
@@ -153,29 +154,27 @@ CREATE TABLE `produits_dans_commande` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `produits_dans_commande`
+-- Déchargement des données de la table `produits_dans_commande`
 --
 
 INSERT INTO `produits_dans_commande` (`id`, `Commande_num_commande`, `Produit_num_produit`, `quantite_produits`) VALUES
 (1, 1, 1, 1),
-(2, 1, 3, 1),
+(2, 1, 4, 1),
 (3, 2, 2, 1),
-(4, 2, 4, 1),
-(5, 3, 1, 2),
-(6, 3, 3, 2);
+(4, 2, 3, 1);
 
 --
--- Indexes for dumped tables
+-- Index pour les tables déchargées
 --
 
 --
--- Indexes for table `client`
+-- Index pour la table `client`
 --
 ALTER TABLE `client`
   ADD PRIMARY KEY (`num_client`);
 
 --
--- Indexes for table `commande`
+-- Index pour la table `commande`
 --
 ALTER TABLE `commande`
   ADD PRIMARY KEY (`num_commande`),
@@ -184,25 +183,26 @@ ALTER TABLE `commande`
   ADD KEY `fk_Commande_Localisation1_idx` (`Localisation_id`);
 
 --
--- Indexes for table `livreur`
+-- Index pour la table `livreur`
 --
 ALTER TABLE `livreur`
   ADD PRIMARY KEY (`num_livreur`);
 
 --
--- Indexes for table `localisation`
+-- Index pour la table `localisation`
 --
 ALTER TABLE `localisation`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_Localisation_Client1_idx` (`Client_num_client`);
 
 --
--- Indexes for table `produit`
+-- Index pour la table `produit`
 --
 ALTER TABLE `produit`
   ADD PRIMARY KEY (`num_produit`);
 
 --
--- Indexes for table `produits_dans_commande`
+-- Index pour la table `produits_dans_commande`
 --
 ALTER TABLE `produits_dans_commande`
   ADD PRIMARY KEY (`id`),
@@ -210,45 +210,45 @@ ALTER TABLE `produits_dans_commande`
   ADD KEY `fk_Commande_has_Produit_Commande1_idx` (`Commande_num_commande`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT pour les tables déchargées
 --
 
 --
--- AUTO_INCREMENT for table `client`
+-- AUTO_INCREMENT pour la table `client`
 --
 ALTER TABLE `client`
   MODIFY `num_client` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
--- AUTO_INCREMENT for table `commande`
+-- AUTO_INCREMENT pour la table `commande`
 --
 ALTER TABLE `commande`
-  MODIFY `num_commande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `num_commande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
--- AUTO_INCREMENT for table `livreur`
+-- AUTO_INCREMENT pour la table `livreur`
 --
 ALTER TABLE `livreur`
   MODIFY `num_livreur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
--- AUTO_INCREMENT for table `localisation`
+-- AUTO_INCREMENT pour la table `localisation`
 --
 ALTER TABLE `localisation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
--- AUTO_INCREMENT for table `produit`
+-- AUTO_INCREMENT pour la table `produit`
 --
 ALTER TABLE `produit`
   MODIFY `num_produit` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
--- AUTO_INCREMENT for table `produits_dans_commande`
+-- AUTO_INCREMENT pour la table `produits_dans_commande`
 --
 ALTER TABLE `produits_dans_commande`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
--- Constraints for dumped tables
+-- Contraintes pour les tables déchargées
 --
 
 --
--- Constraints for table `commande`
+-- Contraintes pour la table `commande`
 --
 ALTER TABLE `commande`
   ADD CONSTRAINT `fk_Commande_Localisation1` FOREIGN KEY (`Localisation_id`) REFERENCES `localisation` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -256,7 +256,13 @@ ALTER TABLE `commande`
   ADD CONSTRAINT `fk_commande_Livreur1` FOREIGN KEY (`num_livreur`) REFERENCES `livreur` (`num_livreur`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `produits_dans_commande`
+-- Contraintes pour la table `localisation`
+--
+ALTER TABLE `localisation`
+  ADD CONSTRAINT `fk_Localisation_Client1` FOREIGN KEY (`Client_num_client`) REFERENCES `client` (`num_client`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Contraintes pour la table `produits_dans_commande`
 --
 ALTER TABLE `produits_dans_commande`
   ADD CONSTRAINT `fk_Commande_has_Produit_Commande1` FOREIGN KEY (`Commande_num_commande`) REFERENCES `commande` (`num_commande`) ON DELETE NO ACTION ON UPDATE NO ACTION,
